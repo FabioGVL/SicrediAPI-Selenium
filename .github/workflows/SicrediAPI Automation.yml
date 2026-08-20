@@ -1,4 +1,4 @@
-name: CICD SicrediAPI
+name: SicrediAPI Automation
 
 on:
   push:

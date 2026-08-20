@@ -1,4 +1,4 @@
-[![Maven CI](https://github.com/FabioGVL/SicrediAPI/actions/workflows/maven.yml/badge.svg)](https://github.com/FabioGVL/SicrediAPI/actions/workflows/maven.yml)
+[![Maven CI](https://github.com/FabioGVL/SicrediAPI/actions/workflows/SicrediAPIAutomation.yml/badge.svg)](https://github.com/FabioGVL/SicrediAPI/actions/workflows/SicrediAPIAutomation.yml)
 
 # Automação de Testes de API - Sicredi API
 

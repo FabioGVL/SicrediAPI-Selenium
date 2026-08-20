@@ -1,536 +1,275 @@
-# Escopo do Projeto
-Os testes abaixo visam garantir a funcionalidade correta e a integridade dos dados fornecidos pela API. Todos os testes foram realizados na linguagem JAVA, utilizando a ferramenta de automação Selenium, os resultados dos testes serão documentados e relatados utilizando o Maven Surefire Report para gerar relatórios HTML automatizados. Os relatórios serão utilizados para análise e melhoria contínua do sistema.
+[![Maven CI](https://github.com/FabioGVL/SicrediAPI/actions/workflows/maven.yml/badge.svg)](https://github.com/FabioGVL/SicrediAPI/actions/workflows/maven.yml)
+
+# Automação de Testes de API - Sicredi API
+
+## Escopo do Produto
+
+Os testes abaixo visam garantir a funcionalidade correta e a integridade dos dados fornecidos pela API. Todos os testes foram realizados na linguagem Java, utilizando ferramentas de automação e validação de contratos, com relatórios gerados via Maven Surefire Report para análise e melhoria contínua do sistema.
 
 ## Escopo do Teste
 
-### 1. Mapeamento de Features:
-* **Endpoints de Consulta:** Rotas destinadas à verificação de dados e restrições.
-* **Endpoints de Gerenciamento:** Rotas para envio de informações e processamento de requisições conforme a documentação técnica do Sicredi.
+A estratégia foca em garantir a funcionalidade correta e a integridade dos principais endpoints da API, simulando diferentes cenários de consulta, autenticação, gerenciamento de recursos e validação das respostas.
 
-### 2. Features Testadas:
-* **Conformidade de Endpoints (GET e POST):** Validação técnica das rotas mapeadas para garantir que as operações de consulta e manutenção retornam os dados esperados.
-* **Validação de Status Codes:** Garantia de que a API responde com os códigos HTTP corretos (ex: 200 OK, 201 Created, 204 No Content, 400 Bad Request) para cada cenário mapeado.
-* **Garantia de Request/Response:** Verificação se a estrutura da resposta recebida pelo Java coincide com as especificações técnicas da documentação original.
+- **Mapeamento de Features:** Endpoints de Consulta e Endpoints de Gerenciamento.
+- **Features Testadas:** Operações GET e POST, autenticação, criação de produtos, consulta de usuários e produtos, validação de Status Codes e integridade das estruturas de Request/Response.
+- **Massa de Dados:** Utilização de chaves, identificadores, credenciais e dados baseados na documentação da API para validar diferentes retornos e cenários de negócio.
+- **Tipos de Testes:**
+  - **Testes de Funcionalidade:** Garantir que os endpoints da API estão operando e retornando os dados conforme o esperado na documentação.
+  - **Testes de Integração:** Garantir que a comunicação entre o cliente e o servidor da API ocorra sem falhas de protocolo ou conexão.
+  - **Testes de Contrato:** Verificar se a estrutura dos dados retornados está em conformidade com o padrão técnico estabelecido.
 
-### 3. Massa de Dados para Teste:
-* **Parâmetros de Requisição:** Uso de chaves e identificadores específicos nos testes para validar diferentes retornos da API.
-* **Dados de Exemplo:** Utilização de dados baseados na documentação para conferir a fidelidade da resposta do servidor.
 
-### 4. Tipos de Testes Utilizados:
-* **Testes de Funcionalidade:** Garantir que os endpoints da API estão operando e retornando os dados conforme o esperado na documentação.
-* **Testes de Integração:** Garantir que a comunicação entre o cliente e o servidor da API ocorra sem falhas de protocolo ou conexão.
-* **Testes de Contrato:** Verificar se a estrutura dos dados retornados está em total conformidade com o padrão técnico estabelecido.
+## Arquitetura e Estrutura
 
-## Arquitetura e estrutura
+O projeto foi desenvolvido focado em testes de integração de API utilizando o ecossistema Java, priorizando a legibilidade, reutilização e validação rigorosa dos contratos:
 
-O projeto foi desenvolvido focado em testes de integração de API utilizando o ecossistema Java, priorizando a legibilidade e a validação rigorosa do contrato:
+* **Padrão de Projeto:** Java Services Pattern, organização dos testes dentro de pacotes de Services, separando as responsabilidades de cada endpoint consultado.
 
-* **Rest-Assured:** Utilizado como a principal biblioteca para automação de API, permitindo uma sintaxe fluida (Given/When/Then) para realizar requisições HTTP e validar respostas.
+* **Tecnologias e Ambiente:** `Java JDK 17+` | `Git` | `Maven` | `Maven Surefire Report 3.0.0-M5` | `Exec Maven Plugin 3.1.1` | `JUnit 5.10.1` | `Rest Assured 5.3.0` | `IntelliJ IDEA`
 
-* **JUnit 5:** Framework de execução de testes utilizado para estruturar as suítes, gerenciar o ciclo de vida dos testes e fornecer relatórios de execução.
+### Componentes e Responsabilidades
 
-* **Java Services Pattern:** Organização dos testes dentro de pacotes de Services, separando as responsabilidades de cada endpoint consultado.
+- **Rest-Assured:** Utilizado como principal biblioteca para automação de API, permitindo uma sintaxe fluida (Given/When/Then) para realizar requisições HTTP e validar respostas.
+- **JUnit 5:** Framework utilizado para estruturar as suítes de testes, gerenciar o ciclo de vida dos testes e fornecer relatórios de execução.
+- **Java Services Pattern:** Organização dos testes dentro de pacotes de Services, separando as responsabilidades de cada endpoint consultado.
+- **Asserções de Resposta:** Utilização das funcionalidades do Rest-Assured para validar Status Codes e a integridade do corpo das respostas JSON por meio de Path validation.
 
-* **Asserções de Resposta:** Uso das funcionalidades nativas do Rest-Assured para validar não apenas os Status Codes, mas também a integridade do corpo das respostas JSON (Path validation).
 
-## Tecnologias e ambientes utilizados para execução do projeto
-
-* Java JDK 17+
-* GIT
-* Maven
-* Maven Surefire Report 3.0.0-M5
-* Exec Maven Plugin 3.1.1
-* Junit 5.10.1
-* Rest Assured 5.3.0
-* IDE (Sugestão IntelliJ)
+---
 
 ## Testes e Validações
 
-### Buscar o status da aplicação
-Dado que efetuo um request do método GET para o domíno dummyjson.com/test  
-Quando a API retornar o Status Code e o método  
-Então deverá conter as informações: status: ok & method: GET
+A suíte de testes foi desenvolvida para validar os principais endpoints da API, verificando o comportamento funcional, os Status Codes, a estrutura das respostas e as regras de autenticação. Os resultados obtidos durante a execução também foram utilizados para identificar e documentar divergências entre o comportamento da API e a documentação técnica.
+
+<details>
+<summary><b>Suíte de Testes</b></summary>
+
+A suíte contempla testes funcionais, de integração e de contrato, validando os principais endpoints da API e seus respectivos cenários de sucesso e falha.
+
+## 1. Buscar o status da aplicação
+
+- **Dado** que efetuo um request do método GET para o domínio `dummyjson.com/test`
+- **Quando** a API retornar o Status Code e o método
+- **Então** deverá conter as informações: `status: ok` & `method: GET`
+
+## 2. Buscar usuário para autenticação
+
+- **Dado** que efetuo um request do método GET para o domínio `dummyjson.com/users`
+- **Quando** a API retornar o request solicitado
+- **Então** deverá conter o status code `200` e as informações corretas do usuário
+
+## 3. Criação de token para Autenticação
+
+- **Dado** que efetuo um request do método POST para o domínio `dummyjson.com/auth/login` contendo `username` e `password` do usuário
+- **Quando** a API retornar o request solicitado
+- **Então** deverá retornar o status code `201`, contendo informações corretas do usuário e um token de autenticação funcional deve ter sido gerado.
+
+## 4. Buscar produtos com autenticação
+
+- **Cenário #1:** Dado que efetuo um request do método GET para `dummyjson.com/auth/products` contendo o token de autenticação correto → **Então** deverá retornar o status code `200`, contendo a lista de produtos e as informações corretas.
+- **Cenário #2:** Dado que efetuo um request do método GET para `dummyjson.com/auth/products` sem informar um token de autenticação → **Então** deverá retornar o status code `403 Forbidden`, informando a mensagem `"Authentication problem"`.
+- **Cenário #3:** Dado que efetuo um request do método GET para `dummyjson.com/auth/products` contendo um token inválido/expirado → **Então** deverá retornar o status code `401 Unauthorized`, informando a mensagem `"Invalid/Expired Token!"`.
+
+## 5. Criação de produto
+
+- **Dado** que efetuo um request do método POST para `dummyjson.com/products/add` contendo as informações do produto
+- **Quando** a API retornar o request solicitado
+- **Então** deverá retornar o status code `201` e as informações corretas do produto inseridas no request.
+
+## 6. Buscar todos os produtos
+
+- **Dado** que efetuo um request do método GET para `dummyjson.com/products`
+- **Quando** a API retornar o request solicitado
+- **Então** deverá retornar o status code `200` e a lista de produtos contendo as informações corretas de cada item.
+
+## 7. Buscar apenas um produto por ID
+
+- **Caso #1:** Dado que efetuo um request do método GET para `dummyjson.com/products/{ID}` → **Então** deverá retornar o status code `200` e apenas o produto de ID informado, contendo suas informações corretas.
+- **Caso #2:** Dado que efetuo um request do método GET para `dummyjson.com/products/{ID}` informando um ID `0` ou inexistente → **Então** deverá retornar o status code `404 Not Found` seguido da mensagem `"Product with id '{id}' not found"`.
+
+</details>
 
 ---
 
-### Buscar usuário para autenticação
-Dado que efetuo um request do método GET para o domíno dummyjson.com/users  
-Quando a API retornar o request solicitado  
-Então deverá conter o status code 200 e as informações corretas do usuário
+## Relatório de testes
 
-#### Passos para reproduzir
+Durante a automação, foram identificadas divergências entre o comportamento observado na API e os dados ou Status Codes apresentados na documentação. As inconsistências foram mapeadas na suíte de testes para facilitar sua análise e reprodução.
 
----
+| Endpoint / Módulo | Suíte de Teste | Resultado esperado / Obtido |
+| :--- | :--- | :--- |
+| **`/test`** | `ApplicationStatusTest` | Nenhuma divergência encontrada. O response retornado está de acordo com o esperado. |
+| **`/users`** | `UserAuthenticationTest` | Divergência no link da imagem esperado e no tipo sanguíneo apresentado na documentação. |
+| **`/auth/login`** | `AuthenticationTest` | Status Code esperado `201`, porém a API retorna `200`. A imagem retornada também diverge da documentação e o token é gerado dinamicamente. |
+| **`/auth/products`** | `AuthenticatedProductsTest` | Token estático da documentação retorna `500`, enquanto token gerado dinamicamente retorna `200`. Total esperado de produtos diverge do total retornado. |
+| **`/products/add`** | `CreateProductTest` | Status Code esperado `201`, porém a API retorna `200`. Os demais parâmetros do produto são inseridos corretamente. |
+| **`/products`** | `ProductsTest` | Links das imagens fornecidos na documentação divergem dos links funcionais retornados pela API. |
+| **`/products/{ID}`** | `ProductByIdTest` | Links das imagens fornecidos na documentação divergem dos links funcionais retornados pela API. |
 
-### Criação de token para Autenticação
-Dado que efetuo um request do método POST para o domíno dummyjson.com/auth/login contendo username e password do usuário  
-Quando a API retornar o request solicitado  
-Então deverá retornar o status code 201, conténdo informações corretas do usuário e um token de autenticação funcional deve ter sido gerado.
+<details>
+<summary><b>Detalhes: Buscar o status da aplicação</b></summary>
 
----
+- **Status:** Aprovado / Sem bugs encontrados.
+- **Detalhes:** O response esperado na documentação está em total acordo com o retornado na API.
 
-### Buscar produtos com autenticação
+</details>
 
-#### Cenário #1
-Dado que efetuo um request do método GET para o domíno dummyjson.com/auth/products contendo o token de autenticação correto  
-Quando a API retornar o request solicitado  
-Então deverá retornar o status code 200, conténdo a lista de produtos e as informações corretas de cada um dos protudos listados.
+<details>
+<summary><b>Detalhes: Buscar usuário para autenticação</b></summary>
 
-#### Cenário #2
-Dado que efetuo um request do método GET para o domíno dummyjson.com/auth/products sem informar um token de autenticação  
-Quando a API retornar o request solicitado  
-Então deverá retornar o status code 403 Forbidden, informando a mensagem "Authentication problem"
+- **Status:** Divergências encontradas (Bugs na documentação vs. API).
+- **Divergências:**
+  - Link da imagem esperado: `https://robohash.org/hicveldicta.png` | Retornado: `https://robohash.org/Terry.png?set=set4`
+  - Tipo sanguíneo esperado: `A−` | Retornado: `A-`
 
-#### Cenário #3
-Dado que efetuo um request do método GET para o domíno dummyjson.com/auth/products contendo um token de autenticação inválido ou expirado  
-Quando a API retornar o request solicitado  
-Então deverá retornar o status code 401 Unauthorized, conténdo a mensagem "Invalid/Expired Token!"
+</details>
 
----
+<details>
+<summary><b>Detalhes: Criação de token para Autenticação</b></summary>
 
-### Criação de produto
-Dado que efetuo um request do método POST para o domíno dummyjson.com/products/add contendo as informações do produto que desejo adicionar  
-Quando a API retornar o request solicitado  
-Então deverá retornar o status code 201 e as informações corretas do produto inseridas no request
+- **Status:** Divergências encontradas.
+- **Divergências:**
+  - Status code esperado: `201` | Obtido: `200`
+  - Link da imagem esperado: `https://robohash.org/autquiaut.png` | Obtido: `https://robohash.org/Jeanne.png?set=set4`
+  - Token: A API gera um novo token dinamicamente a cada requisição POST, invalidando o token estático sugerido na documentação.
 
-#### Passos para reproduzir
+</details>
 
----
+<details>
+<summary><b>Detalhes: Buscar produtos com autenticação</b></summary>
 
-### Buscar todos os produtos
-Dado que efetuo um request do método GET para o domíno dummyjson.com/products  
-Quando a API retornar o request solicitado  
-Então deverá retornar o status code 200 e a lista de produtos contendo as informações corretas de cada produto listado
+- **Status:** Divergências encontradas.
+- **Divergências:**
+  - O uso do token estático da documentação retorna Status Code `500` ("Invalid signature"), enquanto a geração dinâmica via POST retorna `200`.
+  - Total de itens esperados: `3` | Total retornado: `30`.
+  - Domínios de links de imagens divergentes em relação à documentação.
+- **Testes Aprovados:** Validações de rota sem token (`403 Forbidden`) e com token inválido/expirado (`401 Unauthorized`) comportam-se perfeitamente conforme a especificação.
 
----
+</details>
 
-### Buscar apenas um produto por id
+<details>
+<summary><b>Detalhes: Criação de produto</b></summary>
 
-#### Caso #1
-Dado que efetuo um request do método GET para o domíno dummyjson.com/products/{ID}  
-Quando a API retornar o request solicitado  
-Então deverá retornar o status code 200 e apenas o produto de ID informado no request, contendo suas informações corretas na listagem
+- **Status:** Divergências encontradas.
+- **Divergências:**
+  - Status code esperado: `201` | Retornado: `200`.
+  - Demais parâmetros do produto inseridos corretamente.
 
-#### Caso #2
-Dado que efetuo um request do método GET para o domíno dummyjson.com/products/{ID}  
-E informo o ID 0 ou um ID inexistente  
-Quando a API retornar o request solicitado  
-Então deverá retornar o status code 404 Not found seguido da mensagem "Product with id '{id}' not found"
+</details>
 
----
+<details>
+<summary><b>Detalhes: Buscar todos os produtos e Buscar por ID</b></summary>
 
-# Bugs/Erros & Reports
+- **Status:** Divergências encontradas.
+- **Divergências:**
+  - Os links das imagens fornecidos na documentação divergem dos links funcionais retornados pela API.
 
-### Buscar o status da aplicação
-
-Não foram encontrados bugs durante os testes:
-
-O response esperado na documentação está em total acordo com o retornado na API.
-
-#### Passos para reproduzir
-
-
-1. Crie uma pasta no seu desktop, abra e execute o powershell dentro da mesma
-
-2. Obtenha o código da automação através do comando "git clone https://github.com/FabioGVL/SicrediAPI.git" no PowerShell
-
-3. Abra o IntelliJ, clique em nos 4 risquinhos no canto superior esquerdo e selecione "Open"
-
-5. Selecione a pasta do projeto que você fez o download no Step 2
-
-6. No IntelliJ, faça o caminho: SRC - TEST - JAVA - SERVICES.SicrediAPITest - GET
-
-7. Clique com o botão direito no arquivo ApplicationStatusTest
-
-8. Clique em "Run ApplicationStatusTest"
-
-9. No rodapé da IDE será exibida a execução do teste
-
-10. Aguarde a conclusão do teste
-
-12. Após a conclusão, as informações do teste serão exibidas no rodapé da IDE
-
-13. Execute o POSTMAN
-
-14. Embaixo de "My Workspace", localize o + e clique no mesmo
-
-15. Selecione a opção Blank Collection
-
-16. Após criada a aba "New Collection" clique em Add a request
-
-17. No arquivo criado, selecione o método GET
-
-18. Na barra de URL ao lado de GET, cole a URL dummyjson.com/test e clique em SEND
-
-19. No campo BODY será exibido o response para comparativo com as informações base (documentação) utilizadas na automação.
+</details>
 
 ---
 
-### Buscar usuário para autenticação
+# Passos para Configurar e Reproduzir o Projeto
 
-
-Foram encontrados alguns bugs durante os testes:
-
-O reponse esperado na documentação está em desacordo com o retornado na API.
-
-
-* Link da imagem esperada na documentação
-  https://robohash.org/hicveldicta.png
-
-* Link da imagem retornada na API  
-  https://robohash.org/Terry.png?set=set4
-
-* Tipo sanguineo esperado na documentação
-  A−
-
-* Tipo sanguine retornado na API    
-  A-
-
-#### Passos para reproduzir
-
-1. Crie uma pasta no seu desktop, abra e execute o powershell dentro da mesma
-
-2. Obtenha o código da automação através do comando "git clone https://github.com/FabioGVL/SicrediAPI.git" no PowerShell
-
-3. Abra o IntelliJ, clique em nos 4 risquinhos no canto superior esquerto e selecione "Open"
-
-5. Selecione a pasta do projeto que você fez o download no Step 2
-
-6. No IntelliJ, faça o caminho: SRC - TEST - JAVA - SERVICES.SicrediAPITest - GET
-
-7. Clique com o botão direito no arquivo UserSearchTest
-
-8. Clique em "Run UserSearchTest"
-
-9. No rodapé da IDE será exibida a execução do teste
-
-10. Aguarde a conclusão do teste
-
-12. Após a conclusão, as informações do teste serão exibidas no rodapé da IDE
-
-13. Execute o POSTMAN
-
-14. Embaixo de "My Workspace", localize o + e clique no mesmo
-
-15. Selecione a opção Blank Collection
-
-16. Após criada a aba "New Collection" clique em Add a request
-
-17. No arquivo criado, selecione o método GET
-
-18. Na barra de URL ao lado de GET, cole a URL dummyjson.com/users e clique em SEND
-
-19. No campo BODY será exibido o response para comparativo com as informações base (documentação) utilizadas na automação
+Siga o guia abaixo para clonar, configurar o ambiente e executar a suíte de testes automatizados em sua máquina local.
 
 ---
 
-### Criação de token para Autenticação
+## Pré-requisitos
 
-Foram encontrados alguns bugs durante os testes:
+Certifique-se de possuir as seguintes ferramentas instaladas em seu ambiente:
 
-O reponse esperado na documentação está em desacordo com o retornado na API.
-
-* Status code esperado - 201
-* Status code obtido - 200
-
-O Link da imagem esperada na documentação está em desacordo com o retornado na API.
-
-* Esperado (documentação): https://robohash.org/autquiaut.png
-* Obtido (API): https://robohash.org/Jeanne.png?set=set4
-
-O token do usuário esperado na documentação está em desacordo com o retornado na API.
-
-* Esperado (documentação): eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInVzZXJuYW1lIjoia21pbmNoZWxsZSIsImVtYWlsIjoia21pbmNoZWxsZUBxcS5jb20iLCJmaXJzdE5hbWUiOiJKZWFubmUiLCJsYXN0TmFtZSI6IkhhbHZvcnNvbiIsImdlbmRlciI6ImZlbWFsZSIsImltYWdlIjoiaHR0cHM6Ly9yb2JvaGFzaC5vcmcvYXV0cXVpYXV0LnBuZyIsImlhdCI6MTY4MjY5MTgwMSwiZXhwIjoxNjgyNjk1NDAxfQ.npaLt2FFWCh6PAR9cUrufmmI6uLebd2Q6SFMHy8EZ1M
-
-* Obtido (API): É gerado um novo token toda vez que o POST é realizado, tendo o antigo sendo inativado por expiração, portanto, toda vez que o teste for iniciado será gerado um novo token que não estará de acordo com o sugerido na documentação.
-
-#### Passos para reproduzir
-
-1. Crie uma pasta no seu desktop, abra e execute o powershell dentro da mesma
-
-2. Obtenha o código da automação através do comando "git clone https://github.com/FabioGVL/SicrediAPI.git" no PowerShell
-
-3. Abra o IntelliJ, clique em nos 4 risquinhos no canto superior esquerto e selecione "Open"
-
-5. Selecione a pasta do projeto que você fez o download no Step 2
-
-6. No IntelliJ, faça o caminho: SRC - TEST - JAVA - SERVICES.SicrediAPITest - POST
-
-7. Clique com o botão direito no arquivo AuthTokenCreationTest
-
-8. Clique em "Run AuthTokenCreationTest"
-
-9. No rodapé da IDE será exibida a execução do teste
-
-10. Aguarde a conclusão do teste
-
-12. Após a conclusão, as informações do teste serão exibidas no rodapé da IDE
-
-13. Execute o POSTMAN
-
-14. Embaixo de "My Workspace", localize o + e clique no mesmo
-
-15. Selecione a opção Blank Collection
-
-16. Após criada a aba "New Collection" clique em Add a request
-
-17. No arquivo criado, selecione o método POST
-
-18. Na barra de URL ao lado de POST, cole a URL https://dummyjson.com/auth/login
-
-19. Em Headers, no campo _Key_ insira a chave "Content-Type" e em _Value_ insira a chave "application/json"
-
-20. Em Body, selecione o campo "raw" e no menu flutuante a direita selecione "JSON"
-
-21. no campo abaixo insira o código   
-    {
-    "username": "kminchelle",
-    "password": "0lelplR"
-    }
-
-22. Clique em SEND e no campo BODY será exibido o response para comparativo com as informações base (documentação) utilizadas na automação.
+- [Git](https://git-scm.com/)
+- [Java JDK](https://adoptium.net/) — versão 17 ou superior recomendada
+- [Maven](https://maven.apache.org/)
+- Uma IDE Java de sua preferência, como [IntelliJ IDEA](https://www.jetbrains.com/idea/)
 
 ---
 
-### Buscar produtos com autenticação
+## Obtendo o Código do Projeto
 
-Foram encontrados alguns bugs durante os testes:
+Você pode obter os arquivos do projeto de duas formas.
 
-O response obtido ao utilizar o Token esperado na documentação está em desacordo com o retornado na API.
+### Opção A: Clonando via Git (Recomendado)
 
-* Token esperado (documentação)- Status Code: 500 "Invalid signature"
-* Token obtido (API) - Status Code: 200
+Abra o terminal e execute o comando abaixo para clonar o repositório:
 
-#### Sugestão de correção:
-* É possível rodar um POST antes do teste principal para obter um valor de token atualizado e a partir daí realizar o teste principal do GET.
+```bash
+git clone https://github.com/FabioGVL/SicrediAPI.git
+```
 
-#### Outros problemas encontrados:
-As informaçoes retornadas pela API estão em desacordo com a documentação.
-* O número total de itens esperados na documentação é de um total de 3
-* O número total de itens retornados na API é de um total de 30
-* O domínio dos links esperados na documentação está em desacordo com o domínio retornado na API, tendo apenas os links retornados na API redirecionando corretamente para a a imagem do produto.
+Em seguida, navegue para dentro da pasta do projeto:
 
-#### Os seguintes testes foram aprovados:
+```bash
+cd SicrediAPI
+```
 
-* Ao fazer uma solicitaçao sem informar qualquer token, a API retorna o status code 403 Forbidden com a mensagem "message": "Authentication Problem", está de acordo com a documentação.
+### Opção B: Baixando via ZIP
 
-* Ao fazer uma solicitação informando um token invalido/expirado a API retorna o status code 401 com a mensagem "message": "Invalid/Expired Token!", está de acordo com a documentação.
-
-#### Passos para reproduzir
-
-1. Crie uma pasta no seu desktop, abra e execute o powershell dentro da mesma
-
-2. Obtenha o código da automação através do comando "git clone https://github.com/FabioGVL/SicrediAPI.git" no PowerShell
-
-3. Abra o IntelliJ, clique em nos 4 risquinhos no canto superior esquerto e selecione "Open"
-
-5. Selecione a pasta do projeto que você fez o download no Step 2
-
-6. No IntelliJ, faça o caminho: SRC - TEST - JAVA - SERVICES.SicrediAPITest - GET
-
-7. Clique com o botão direito no arquivo AuthProductSearchTest
-
-8. Clique em "Run AuthProductSearchTest"
-
-9. No rodapé da IDE será exibida a execução do teste
-
-10. Aguarde a conclusão do teste
-
-12. Após a conclusão, as informações do teste serão exibidas no rodapé da IDE
-
-13. Execute o POSTMAN
-
-14. Embaixo de "My Workspace", localize o + e clique no mesmo
-
-15. Selecione a opção Blank Collection
-
-16. Após criada a aba "New Collection" clique em Add a request
-
-17. No arquivo criado, selecione o método GET
-
-18. Na barra de URL ao lado de GET, cole a URL dummyjson.com/auth/products
-
-19. Para verificação do teste 1, em Headers adicione Authorization no campo _Key_ e no campo Value adicione o _Token_ gerado no POST do teste anterior e clique em SEND
-
-20. No campo BODY será exibido o response para comparativo com as informações base (documentação) utilizadas na automação
-
-21. Para verificação do teste 2, em Headers desmarque a caixinha do campo Authorization e clique em SEND
-
-22. No campo BODY será exibido o response para comparativo com as informações base (documentação) utilizadas na automação
-
-23. Para verificação do teste 3, reative a caixinha do campo Authorization e no campo _Value_ adicione _invalid_token_ e clique em SEND
-
-24. No campo BODY será exibido o response para comparativo com as informações base (documentação) utilizadas na automação
+1. Acesse a página do repositório no GitHub.
+2. Clique no botão verde **Code**.
+3. Selecione **Download ZIP**.
+4. Extraia o conteúdo do arquivo compactado em uma pasta no seu computador.
+5. Abra sua IDE Java.
+6. Acesse a opção para abrir um projeto existente e selecione a pasta descompactada.
 
 ---
 
-### Criação de produto
+## Instalando as Dependências
 
-Foram encontrados alguns bugs durante os testes:
+Com o terminal aberto na raiz do projeto, execute o comando abaixo para instalar as dependências e executar o ciclo de testes:
 
-O reponse esperado na documentação está em desacordo com o retornado na API:
-
-* Status code esperado na documentação: 201
-* Status code retornado na API: 200
-
-Os demais tópicos, como a criação do POST e o retorno das demais informações do produto estão corretas e de acordo com a documentação.
-
-#### Passos para reproduzir
-
-1. Crie uma pasta no seu desktop, abra e execute o powershell dentro da mesma
-
-2. Obtenha o código da automação através do comando "git clone https://github.com/FabioGVL/SicrediAPI.git" no PowerShell
-
-3. Abra o IntelliJ, clique em nos 4 risquinhos no canto superior esquerto e selecione "Open"
-
-5. Selecione a pasta do projeto que você fez o download no Step 2
-
-6. No IntelliJ, faça o caminho: SRC - TEST - JAVA - SERVICES.SicrediAPITest - POST
-
-7. Clique com o botão direito no arquivo ProductCreationTest
-
-8. Clique em "Run ProductCreationTest"
-
-9. No rodapé da IDE será exibida a execução do teste
-
-10. Aguarde a conclusão do teste
-
-12. Após a conclusão, as informações do teste serão exibidas no rodapé da IDE
-
-13. Execute o POSTMAN
-
-14. Embaixo de "My Workspace", localize o + e clique no mesmo
-
-15. Selecione a opção Blank Collection
-
-16. Após criada a aba "New Collection" clique em Add a request
-
-17. No arquivo criado, selecione o método POST
-
-18. Na barra de URL ao lado de POST, cole a URL https://dummyjson.com/products/add
-
-19. Em Headers, no campo _Key_ insira a chave "Content-Type" e em _Value_ insira a chave "application/json"
-
-20. Em Body, selecione o campo "raw" e no menu flutuante a direita selecione "JSON"
-
-21. no campo abaixo insira o código   
-    {
-    "title": "Perfume Oil",
-    "description": "Mega Discount, Impression of A...",
-    "price": 13,
-    "discountPercentage": 8.4,
-    "rating": 4.26,
-    "stock": 65,
-    "brand": "Impression of Acqua Di Gio",
-    "category": "fragrances",
-    "thumbnail": "https://i.dummyjson.com/data/products/11/thumnail.jpg"
-    }
-
-22. Clique em SEND e no campo BODY será exibido o response para comparativo com as informações base (documentação) utilizadas na automação.
+```bash
+mvn clean test
+```
 
 ---
 
-### Buscar todos os produtos
+## Executando os Testes
 
-Foram encontrados alguns bugs durante os testes:
+O projeto utiliza o Maven para execução da suíte automatizada e geração dos relatórios.
 
+### Execução Padrão
 
-* Os links das imagens fornecidos na documentação estão em desacordo com o retornado na API. Apenas os links obtidos diretamente na API estão redirecionando corretamente para as respectivas imagens.
+Executa toda a suíte de testes e realiza a limpeza do projeto antes da execução:
 
-O retorno das demais informações estão corretas e de acordo com a documentação.
+```bash
+mvn clean test
+```
 
-#### Passos para reproduzir
+### Gerando o Relatório Maven Surefire
 
-1. Crie uma pasta no seu desktop, abra e execute o powershell dentro da mesma
+Para gerar o relatório completo de execução dos testes:
 
-2. Obtenha o código da automação através do comando "git clone https://github.com/FabioGVL/SicrediAPI.git" no PowerShell
+```bash
+mvn surefire-report:report
+```
 
-3. Abra o IntelliJ, clique em nos 4 risquinhos no canto superior esquerto e selecione "Open"
+### Executando um Teste Específico
 
-5. Selecione a pasta do projeto que você fez o download no Step 2
+Para executar uma classe de teste específica:
 
-6. No IntelliJ, faça o caminho: SRC - TEST - JAVA - SERVICES.SicrediAPITest - GET
+```bash
+mvn test -Dtest=ApplicationStatusTest
+```
 
-7. Clique com o botão direito no arquivo AllProductsSearch
-
-8. Clique em "Run AllProductsSearch"
-
-9. No rodapé da IDE será exibida a execução do teste
-
-10. Aguarde a conclusão do teste
-
-12. Após a conclusão, as informações do teste serão exibidas no rodapé da IDE
-
-13. Execute o POSTMAN
-
-14. Embaixo de "My Workspace", localize o + e clique no mesmo
-
-15. Selecione a opção Blank Collection
-
-16. Após criada a aba "New Collection" clique em Add a request
-
-17. No arquivo criado, selecione o método GET
-
-18. Na barra de URL ao lado de GET, cole a URL dummyjson.com/products e clique em SEND
-
-19. No campo BODY será exibido o response para comparativo com as informações base (documentação) utilizadas na automação.
 
 ---
 
-### Buscar apenas um produto por id
+# CI/CD e Relatórios de Testes
 
-Foram encontrados alguns bugs durante os testes:
+Para gerar e visualizar o relatório completo de execução via GitHub Actions:
 
-* Os links das imagens fornecidos na documentação estão em desacordo com o retornado na API. Apenas os links obtidos diretamente na API estão redirecionando corretamente para as respectivas imagens.
-
-#### Passos para reproduzir
-
-1. Crie uma pasta no seu desktop, abra e execute o powershell dentro da mesma
-
-2. Obtenha o código da automação através do comando "git clone https://github.com/FabioGVL/SicrediAPI.git" no PowerShell
-
-3. Abra o IntelliJ, clique em nos 4 risquinhos no canto superior esquerto e selecione "Open"
-
-5. Selecione a pasta do projeto que você fez o download no Step 2
-
-6. No IntelliJ, faça o caminho: SRC - TEST - JAVA - SERVICES.SicrediAPITest - GET
-
-7. Clique com o botão direito no arquivo SingleProductSearchTest
-
-8. Clique em "Run SingleProductSearchTest"
-
-9. No rodapé da IDE será exibida a execução do teste
-
-10. Aguarde a conclusão do teste
-
-12. Após a conclusão, as informações do teste serão exibidas no rodapé da IDE
-
-13. Execute o POSTMAN
-
-14. Embaixo de "My Workspace", localize o + e clique no mesmo
-
-15. Selecione a opção Blank Collection
-
-16. Após criada a aba "New Collection" clique em Add a request
-
-17. No arquivo criado, selecione o método GET
-
-18. Para realizar o primeiro teste, na barra de URL ao lado de GET, cole a URL dummyjson.com/products/{ID} (insira ids de produtos existentes de 1 a 100) e clique em SEND
-
-19. No campo BODY será exibido o response para comparativo com as informações base (documentação) utilizadas na automação.
-
-20. Para realizar o segundo teste, Na barra de URL ao lado de GET, cole a URL dummyjson.com/products/{ID} (insira ids de produtos inexistentes ex: 0,101,999) e clique em SEND
-
-21. No campo BODY será exibido o response para comparativo com as informações base (documentação) utilizadas na automação.
+1. Acesse o repositório no GitHub: `https://github.com/FabioGVL/SicrediAPI`.
+2. No menu superior, clique em **Actions**.
+3. Selecione o workflow desejado e verifique se a label `SUMMARY` está ativa.
+4. No rodapé da página de execução concluída, faça o download do arquivo compactado no campo **ARTIFACTS**.
+5. Extraia o arquivo `.zip` e abra o relatório HTML `surefire-report.html` em seu navegador.
 
 ---
 
-### Gerando relatório completo dos testes (CICD)
+# Resumo dos Comandos
 
-* Acesse o repositório do link https://github.com/FabioGVL/SicrediAPI.git
-* No menu superior, clique em Actions
-* Clique no teste desejado
-* Certifique-se de que no menu a esquerda esteja selecionado a label SUMMARY
-* No rodapé da página, após conclusão do teste, o relatório completo estará diponível para download no campo ARTIFACTS 
-* Clique no arquivo e será realizado o download do relatório em formato Zip
-* Após isso, basta extrair o arquivo e abrir o relatório HTML de nome surefire-report.html
+| Objetivo | Comando |
+|---|---|
+| Instalar dependências / Limpar projeto | `mvn clean test` |
+| Gerar relatório Surefire Report | `mvn surefire-report:report` |
+| Executar teste específico via Maven | `mvn test -Dtest=ApplicationStatusTest` |
